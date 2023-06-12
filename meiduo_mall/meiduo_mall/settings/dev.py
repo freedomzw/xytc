@@ -24,7 +24,7 @@ SECRET_KEY = 'hg4*h4yswt%=a#2rc2_c=zmnj&j4#k(u$#3gbpbg29nx8mzsg1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 import pymysql
 
@@ -102,6 +102,8 @@ DATABASES = {
     }
 }
 sw = "dev"
+
+
 def getHost():
     if sw == "dev":
         return ["127.0.0.1", "root"]
@@ -110,18 +112,19 @@ def getHost():
     elif sw == "pro":
         return ["127.0.0.1", "root"]
 
+
 # mysql
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_demo',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'NAME': 'meiduo',
+        'USER': 'meiduo',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1',
         'OPTIONS': {
             # 'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
             # "init_command": "SET foreign_key_checks = 0;",
-            # 'charset': 'utf8mb4'
+            'charset': 'utf8mb4'
         }
     }
 }
@@ -131,6 +134,35 @@ DATABASES = {
  grant all on  meiduo.* to 'meiduo'@'%';
  flush privileges;
 '''
+
+# redis 分库
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:63180/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+            "PASSWORD": "loadtest",
+        },
+        # 前缀
+        # "KEY_PREFIX": "test_platform"
+    },
+    "session": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:63180/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+            "PASSWORD": "loadtest",
+        },
+        # 前缀
+        # "KEY_PREFIX": "test_platform"
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"  # default|session
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -167,3 +199,144 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# 下面就是logging的配置
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # 是否禁用已经存在的日志器
+    'formatters': {  # 日志信息的显示格式
+        'verbose': {
+            'format': '%(asctime)s %(levelname)-8s %(filename)s %(funcName)s[line:%(lineno)d] %(message)s',
+            # 'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(asctime)s %(levelname)-8s %(pathname)s %(funcName)s[line:%(lineno)d] %(message)s'
+        },
+    },
+    'filters': {  # 对日志进行过滤
+        'require_debug_true': {  # django在debug模式下才能输出日志
+            '{}': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+
+    'handlers': {  # 日志处理的方法
+        # 标准输出
+        'console': {  # 向终端中输出日志
+            'level': 'INFO',  # DEBUG | INFO
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',  # standard | simple
+        },
+        'file': {  # 向文件中输出日志
+            'level': 'INFO',  # DEBUG ｜INFO
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(os.path.dirname(BASE_DIR), 'logs/meiduo.log'),  # 日志文件的位置
+            'maxBytes': 1024 * 1024 * 50,  # 50 MB
+            'backupCount': 10,
+            'formatter': 'verbose',  # standard |verbose
+        },
+
+        # 'standard': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': logFileName,
+        #     'maxBytes': 1024 * 1024 * 100,  # 100 MB
+        #     'backupCount': 5,
+        #     # 每天凌晨切分
+        #     # 'when': 'MIDNIGHT',
+        #     'formatter': 'standard',
+        # },
+        # 'standard_openapi': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': logFileOpenApi,
+        #     'maxBytes': 1024 * 1024 * 50,  # 50 MB
+        #     'backupCount': 5,
+        #     'formatter': 'detail',
+        # },
+        # 'statistical': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': logFileStatistical,
+        #     'maxBytes': 1024 * 1024 * 50,  # 50 MB
+        #     'backupCount': 5,
+        #     'formatter': 'detail',
+        # },
+        # 'task': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': logFileTask,
+        #     'maxBytes': 1024 * 1024 * 50,  # 50 MB
+        #     'backupCount': 5,
+        #     'formatter': 'detail',
+        # },
+        # 'cluster': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': logFileCluster,
+        #     'maxBytes': 1024 * 1024 * 50,  # 50 MB
+        #     'backupCount': 5,
+        #     'formatter': 'detail',
+        # },
+
+    },
+    'loggers': {  # 日志器
+        'django': {  # 定义了一个名为django的日志器
+            'handlers': ['console', 'file'],  # 可以同时向终端与文件中输出日志
+            'level': 'INFO',  # 这里配置django本身日志等级
+            'propagate': True,
+        },
+        # # 自定义模块日志
+        # 'django.template': {
+        #     'handlers': ['file'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'test_platform': {
+        #     'handlers': ['console', 'standard'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'test_frame': {
+        #     'handlers': ['console', 'standard'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        #
+        # 'customAuth': {
+        #     'handlers': ['console', 'standard'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'rest_framework': {
+        #     'handlers': ['console', 'standard'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'test_tools': {
+        #     'handlers': ['console', 'standard'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'open_api': {
+        #     'handlers': ['console', 'standard_openapi'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'statistical': {
+        #     'handlers': ['console', 'statistical'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'task': {
+        #     'handlers': ['console', 'task'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'cluster': {
+        #     'handlers': ['console', 'cluster'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+    },
+}
