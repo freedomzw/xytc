@@ -13,7 +13,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import sys
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 追加导包路径指定apps包
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+# print(sys.path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -39,6 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 'meiduo_mall.apps.users'  # 用户模块
+    'users',  # 用户模块
 ]
 
 MIDDLEWARE = [
@@ -185,9 +194,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# 语言
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+# 时区
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -201,7 +212,7 @@ USE_TZ = True
 # 指定加载静态路由的前缀
 STATIC_URL = '/static/'
 # 配置静态文件的加载路径
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # http://127.0.0.1/static/images/adv01.jpg
 
@@ -345,3 +356,6 @@ LOGGING = {
         # },
     },
 }
+
+# 指定自定义的用户模型类：值的语法==》 '子应用.用户模型类'
+AUTH_USER_MODEL = 'users.User'
