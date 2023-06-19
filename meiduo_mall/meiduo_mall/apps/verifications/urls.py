@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     # 图形验证码
-    url(r'^image_code/(?P<uuid>[\w-]+)/$', views.ImageCodeView.as_view())
+    # http://0.0.0.0/image_code/1-1-1-1/
+    url(r'^image_codes/(?P<uuid>[\w-]+)/$', views.ImageCodeView.as_view())
 ]

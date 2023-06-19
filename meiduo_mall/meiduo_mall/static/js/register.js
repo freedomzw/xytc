@@ -97,6 +97,28 @@ let vm = new Vue({
                 this.error_mobile_message = '您输入的手机号格式不正确';
                 this.error_mobile = true;
             }
+
+            // 判断手机号是否重复注册
+            if (this.error_mobile == false) { // 只有当用户输入手机号满足条件时才回去判断
+                let url = '/mobiles/' + this.mobile + '/count/';
+                axios.get(url, {
+                    responseType: 'json'
+                })
+                    .then(response => {
+                        if (response.data.count == 1) {
+                            // 用户名已存在
+                            this.error_mobile_message = '手机号已存在';
+                            this.error_mobile = true;
+                        } else {
+                            // 用户名不存在
+                            this.error_mobile = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                    })
+            }
+
         },
         // 校验是否勾选协议
         check_allow() {

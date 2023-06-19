@@ -70,7 +70,7 @@ class Captcha(object):
         # self.image = Image.new('RGB', (width, height), (255, 255, 255))
         self._text = text if text else random.sample(string.ascii_uppercase + string.ascii_uppercase + '3456789', 4)
         self.fonts = fonts if fonts else \
-            [os.path.join(self._dir, 'fonts', font) for font in ['Arial.ttf', 'Georgia.ttf', 'actionj.ttf']]
+            [os.path.join(self._dir, '../../../../../../../../../02-其他资料/captcha/fonts', font) for font in ['Arial.ttf', 'Georgia.ttf', 'actionj.ttf']]
         self.width = width
         self.height = height
         self._color = color if color else self.random_color(0, 200, random.randint(220, 255))

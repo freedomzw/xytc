@@ -48,13 +48,15 @@ INSTALLED_APPS = [
 
     # 'meiduo_mall.apps.users'  # 用户模块
     'users',  # 用户模块
+    'contents',  # 首页广告模块
+    'verifications',  # 验证码
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -167,7 +169,18 @@ CACHES = {
         },
         # 前缀
         # "KEY_PREFIX": "test_platform"
-    }
+    },
+    "verify_code": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:63180/3",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+            "PASSWORD": "loadtest",
+        },
+        # 前缀
+        # "KEY_PREFIX": "test_platform"
+    },
 }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
