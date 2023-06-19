@@ -1,13 +1,52 @@
+from django.contrib.auth import login
 from django.db import DatabaseError
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
-from django.http import HttpResponseForbidden, HttpResponse
+from django.http import HttpResponseForbidden, HttpResponse, JsonResponse
+from meiduo_mall.utils.response_code import RETCODE
+
 import re
 
 from users.models import User
 
 
-# Create your views here.
+class UsernameCountView(View):
+
+    def get(self, request, username):
+        """
+
+        :param request:
+        :param username:  用户名
+        :return: JSON
+
+        """
+
+        # 实现主体业务逻辑：使用username查询对应的记录的条数
+        count = User.objects.filter(
+            username=username
+        ).count()
+
+        # 响应结果
+        return JsonResponse({'code': 0, 'errmsg': 'RETCODE.ok', 'count': count})
+
+
+class PhoneCountView(View):
+
+    def get(self, request,mobile):
+        """
+        用于判断手机号是否有重复
+        :param request:
+        :param mobile:  手机号
+        :return: JSON
+        """
+
+        count = User.objects.filter(
+            mobile=mobile
+        ).count()
+
+        return JsonResponse({'code': 0, 'errmsg': 'RETCODE.ok', 'count': count})
+
 
 class RegisterView(View):
     """用户注册"""
@@ -46,12 +85,16 @@ class RegisterView(View):
         if allow != 'on':
             return HttpResponseForbidden('请勾选用户协议')
 
+        # return render(request, 'register.html', {'register_errmsg': '注册失败'})
+
         # 保存业务数据:是注册的核心代码
         try:
-            User.objects.create_user(username=username, password=password, mobile=mobile)
+            user = User.objects.create_user(username=username, password=password, mobile=mobile)
         except DatabaseError:
             return render(request, 'register.html', {'register_msg': '注册失败'})
 
-        return HttpResponse('注册成功,重定向到首页')
+        # return HttpResponse('注册成功,重定向到首页')
 
+        login(request, user, backend=None)
 
+        return redirect(reverse('contents:index'))
