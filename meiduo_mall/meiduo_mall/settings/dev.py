@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'users',  # 用户模块
     'contents',  # 首页广告模块
     'verifications',  # 验证码
+    'mysql_test', #mysql测试模块
+    'redis_test', #redis测试模块
 ]
 
 MIDDLEWARE = [
@@ -143,6 +145,7 @@ DATABASES = {
  create database meiduo charset=utf8;
  create user meiduo identified by '123456';
  grant all on  meiduo.* to 'meiduo'@'%';
+ 授权库meiduo的所有的权限 to meiduo用户和 所有ip下
  flush privileges;
 '''
 

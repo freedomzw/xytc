@@ -1,0 +1,5 @@
+INSERT INTO `tb_user_test` VALUES (null, 'zs', '男', '2018-08-08', '北京');
+INSERT INTO `tb_user_test` VALUES (null, 'ls', '女', '2018-08-30', '武汉');
+INSERT INTO `tb_user_test` VALUES (null, 'ww', '男', '2018-08-08', '北京1');
+INSERT INTO `tb_user_test` VALUES (null, 'ww', '男', '2018-08-08', '北京2');
+INSERT INTO `tb_user_test` VALUES (null, 'ww', '男', '2018-08-08', '北京3');
