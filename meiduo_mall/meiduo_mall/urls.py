@@ -18,7 +18,11 @@ from django.urls import path, include
 from django.conf.urls import url
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
+
+    # mysql_test
+    path('mysql/', include('mysql_test.urls')),
 
     # users 应用
     url(r'^', include(('users.urls', 'users'), namespace='users')),
@@ -27,7 +31,8 @@ urlpatterns = [
     url(r'^', include(('contents.urls', 'contents'), namespace='contents')),
 
     # verifications
-    url(r'^', include('verifications.urls'))
+    url(r'^', include('verifications.urls')),
+
 ]
 
 # 重定向 127.0.0.1直接跳转到Blog

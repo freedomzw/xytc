@@ -21,4 +21,4 @@ class UserTest(models.Model):
         unique_together = (('username', 'address'),)
 
     def __str__(self):
-        return f'姓名是{self.username}'
+        return f'姓名:{self.username},性别:{self.sex},生日:{self.birthday},地址:{self.address}'
