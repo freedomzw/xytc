@@ -1,4 +1,0 @@
-python3 /Users/zhaowei/Downloads/code/xytc/meiduo_mall/manage.py makemigrations
-python3 /Users/zhaowei/Downloads/code/xytc/meiduo_mall/manage.py migreate
-
-django-admin startapp bookstore
