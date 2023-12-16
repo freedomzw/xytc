@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- 开发环境版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{ message }}
+    [[ message ]]
+    <hr>
+    <a href="#">[[m]]</a>
+    <a v-bind:href="info" target="_blank">点击有惊喜2</a>
+    <hr>
+    <span v-bind:title="ads">鼠标悬停几秒钟查看此处动态绑定的提示信息！</span> <br>
+    <hr>
+
+</div>
+</body>
+<script type="text/javascript">
+    var test = new Vue({
+        el: '#app',//document.getElementById('app')
+        delimiters: ['[[', ']]'],  //'[[' 代表开始的分隔符 ']]'代表结束的分隔符
+        data: {
+            message: 'Hello Vue!',
+            info: 'https://www.baidu.com',
+            m: '点击有惊喜1',
+            ads: '页面加载于' + new Date().toLocaleString(),
+            ads: '页面加载于' + new Date().toLocaleString(),
+        }
+    })
+    // test.$data.message='zhaowei'
+    // test.$data.message
+</script>
+</html>

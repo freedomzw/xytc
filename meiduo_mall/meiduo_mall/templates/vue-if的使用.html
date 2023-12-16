@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- 开发环境版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+
+    {{ message }}
+    <hr>
+    <a href="#">[[m]]</a>
+    <a v-bind:href="info" target="_blank">点击有惊喜2</a>
+    <hr>
+    <span v-bind:title="ads">鼠标悬停几秒钟查看此处动态绑定的提示信息！</span> <br>
+    <hr>
+    <a href="#" v-if="isLogin"> 特别显示1</a>
+    <a href="#" v-else> 特别显示2</a>
+    {#v-else 使用的时候不能有换行#}
+
+    <p v-if="seen">现在你看到我了</p>
+    <p v-else>现在你看到我了2</p>
+
+
+    <img src="" alt="皇帝" v-if="level === 1">
+    <img src="" alt="皇亲" v-else-if="level === 2">
+    <img src="" alt="国戚" v-else-if="level === 3">
+    <img src="" alt="大臣" v-else>
+
+    <section v-if="isShow">                    <!-- isShow 为 true 时，显示下面的div -->
+        <div>我是div，isShow为True时我显示</div>
+    </section>
+    <section v-else>                        <!-- isShow 为 false 时，显示下面的div -->
+        <div>我是div，isShow为False时我显示</div>
+    </section>
+</div>
+</body>
+<script type="text/javascript">
+    var test = new Vue({
+        el: '#app',//document.getElementById('app')
+        delimiters: ['[[', ']]'],  //'[[' 代表开始的分隔符 ']]'代表结束的分隔符
+        data: {
+            message: 'Hello Vue!',
+            info: 'https://www.baidu.com',
+            m: '点击有惊喜1',
+            ads: '页面加载于' + new Date().toLocaleString(),
+            ads2: '页面加载于' + new Date().toLocaleString(),
+            isLogin: true,
+            isShow: true,
+            seen: true,
+            level: 1,
+        }
+    })
+    // test.$data.message='zhaowei'
+    // test.$data.message
+</script>
+</html>

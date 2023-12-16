@@ -21,8 +21,13 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
+    path('app01/', include('app01.urls', namespace='app01')),
+    path('app02/', include('app02.urls', namespace='app02')),
+
+    url(r'^', include('book.urls', namespace='book')),
+
     # mysql_test
-    path('mysql/', include('mysql_test.urls')),
+    path('mysql/', include('mysql_test.urls', namespace='mysql_test')),
 
     # users 应用
     url(r'^', include(('users.urls', 'users'), namespace='users')),

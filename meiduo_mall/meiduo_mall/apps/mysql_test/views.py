@@ -27,3 +27,46 @@ def query_by_id(request):
     # return HttpResponse('ok')
 
     return JsonResponse({'code': 0, 'errmsg': 'RETCODE.ok', 'id': the_first_data})
+
+
+def query_by_name(request):
+    return HttpResponse('ok')
+
+
+def index(request):
+    return HttpResponse('index')
+
+
+def index2(request, value1, value2, value3):
+    # 构造上下文
+    context = {'v1': value1, 'v2': value2, 'v3': value3}
+    print(context)
+
+    return HttpResponse('index2')
+
+
+def index3(request, value1, value2):
+    # 构造上下文
+    context = {'v1': value1, 'v2': value2}
+    print(context)
+    return HttpResponse('index3')
+
+
+def test(request):
+    return HttpResponse('test')
+
+
+def month_archive(request, year, month):
+    return HttpResponse('month_archive')
+
+
+def year_archive(request, year):
+    return HttpResponse('year_archive')
+
+
+def special_case_2003(request, month):
+    return HttpResponse('special_case_2003')
+
+
+def article_detail(request, year, month, day):
+    return HttpResponse('article_detail')

@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 追加导包路径指定apps包
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # print(sys.path)
-
+APPEND_SLASH = True
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -50,8 +50,11 @@ INSTALLED_APPS = [
     'users',  # 用户模块
     'contents',  # 首页广告模块
     'verifications',  # 验证码
-    'mysql_test', #mysql测试模块
-    'redis_test', #redis测试模块
+    'mysql_test',  # mysql测试模块
+    'redis_test',  # redis测试模块
+    'book',  # bookstore
+    'app01',
+    'app02',
 ]
 
 MIDDLEWARE = [
@@ -186,8 +189,9 @@ CACHES = {
     },
 }
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"  # default|session
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+SESSION_CACHE_ALIAS = "session"  # default|session
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -232,7 +236,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # http://127.0.0.1/static/images/adv01.jpg
 
-# 下面就是logging的配置
+###############################下面就是logging的配置############################################
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,  # 是否禁用已经存在的日志器
