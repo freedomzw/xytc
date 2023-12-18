@@ -3,7 +3,7 @@ from django.db import DatabaseError
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
-from django.http import HttpResponseForbidden, HttpResponse, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from meiduo_mall.utils.response_code import RETCODE
 
 import re
@@ -33,7 +33,7 @@ class UsernameCountView(View):
 
 class PhoneCountView(View):
 
-    def get(self, request,mobile):
+    def get(self, request, mobile):
         """
         用于判断手机号是否有重复
         :param request:
