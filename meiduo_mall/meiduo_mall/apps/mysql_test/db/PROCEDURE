@@ -1,0 +1,24 @@
+DELIMITER //
+
+CREATE PROCEDURE Insert1000Rows()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+
+    -- 定义随机字符串的字符集
+    SET @charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    WHILE i <= 1000 DO
+        -- 生成随机姓名
+        SET @random_name = SUBSTRING(
+            MD5(RAND() * RAND() * RAND() * RAND() * RAND()), 1, 10);
+
+        -- 生成随机地址范围中的值
+        SET @random_addr = CONCAT('Address-', FLOOR(RAND() * 100) + 1);
+
+        -- 插入数据
+        INSERT INTO your_table (name, addr) VALUES (@random_name, @random_addr);
+        SET i = i + 1;
+    END WHILE;
+END //
+
+DELIMITER ;
