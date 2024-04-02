@@ -37,9 +37,19 @@ class emp(models.Model):
 
 
 class department(models.Model):
-    dep_name = models.CharField(verbose_name='部门名称',max_length=20)
-    dep_location = models.CharField(verbose_name='部门名称',max_length=20)
+    dep_name = models.CharField(verbose_name='部门名称', max_length=20)
+    dep_location = models.CharField(verbose_name='部门名称', max_length=20)
 
     class Meta:
         db_table = 'department'
         verbose_name = '部门'
+
+
+class employee(models.Model):
+    name = models.CharField(max_length=20)
+    age = models.IntegerField(verbose_name="年龄")
+    dep_id = models.IntegerField(verbose_name="部门id")
+
+    class Meta:
+        db_table = 'employee'
+        verbose_name = '员工'
